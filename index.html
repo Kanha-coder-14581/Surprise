@@ -8,29 +8,19 @@
             margin: 0;
             padding: 0;
             text-align: center;
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(-45deg, #ff6a88, #ff99ac, #ff758c, #ff7eb3);
-            background-size: 400% 400%;
-            animation: gradientBG 10s ease infinite;
+            font-family: Arial;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
             color: white;
             overflow: hidden;
         }
 
-        @keyframes gradientBG {
-            0% {background-position: 0% 50%;}
-            50% {background-position: 100% 50%;}
-            100% {background-position: 0% 50%;}
-        }
-
         h1 {
             margin-top: 80px;
-            font-size: 50px;
-            text-shadow: 0 0 20px rgba(255,255,255,0.8);
+            font-size: 45px;
         }
 
         h2 {
             font-size: 22px;
-            opacity: 0.9;
         }
 
         button {
@@ -38,37 +28,36 @@
             font-size: 20px;
             background: #ff4d6d;
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             color: white;
             cursor: pointer;
             margin-top: 20px;
-            box-shadow: 0 0 15px rgba(255,77,109,0.8);
         }
 
         #message {
             display: none;
-            font-size: 26px;
+            font-size: 24px;
             margin-top: 30px;
             padding: 20px;
-            line-height: 1.6;
+        }
+
+        /* ❤️ Floating hearts */
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
         }
 
         .heart {
             position: fixed;
-            bottom: -10px;
-            animation: floatUp 6s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes floatUp {
-            0% {transform: translateY(0); opacity: 1;}
-            100% {transform: translateY(-100vh); opacity: 0;}
+            bottom: 0;
+            animation: floatUp 5s linear infinite;
         }
 
         canvas {
             position: fixed;
             top: 0;
             left: 0;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -78,27 +67,13 @@
 <h1>Radha Rani ❤️</h1>
 <h2>There is something in my heart for you...</h2>
 
-<button onclick="startLove()">Open My Heart 💌</button>
+<button onclick="startLove()" id="startBtn">Open My Heart 💌</button>
 
 <div id="message">
-    <p>
-        From the moment you came into my life, everything started feeling beautiful 🌸  
-        Your smile is my peace, your voice is my favorite song 🎶  
-    </p>
-
-    <p>
-        I may not be perfect, but my love for you is pure and true ❤️  
-        Every heartbeat of mine whispers your name... Radha Rani 💖  
-    </p>
-
-    <p>
-        I don’t want just moments with you,  
-        I want forever with you… 💍  
-    </p>
-
-    <p><b>Will you be mine forever? ❤️</b></p>
-
-    <p>– Yours always, Kanhaiya 💕</p>
+    <p>You are my happiness 💖</p>
+    <p>I love you so much, Radha Rani ❤️</p>
+    <p>– Yours, Kanhaiya 💕</p>
+    <p><b>Will you be mine forever? 💍</b></p>
 
     <button onclick="yes()">Yes 😍</button>
     <button id="noBtn" onmouseover="moveNo()">No 😢</button>
@@ -111,26 +86,18 @@
 <canvas id="fireworks"></canvas>
 
 <script>
+// Start everything
 function startLove() {
     document.getElementById("message").style.display = "block";
-    document.getElementById("music").play();
+    document.getElementById("startBtn").style.display = "none";
+
+    let music = document.getElementById("music");
+    music.play().catch(() => {});
+
     createHearts();
 }
 
-function yes() {
-    alert("You just made me the happiest person ❤️ – Kanhaiya");
-    startFireworks();
-}
-
-// Funny No button 😂
-function moveNo() {
-    let btn = document.getElementById("noBtn");
-    btn.style.position = "absolute";
-    btn.style.left = Math.random() * window.innerWidth + "px";
-    btn.style.top = Math.random() * window.innerHeight + "px";
-}
-
-// ❤️ Floating hearts
+// ❤️ Hearts
 function createHearts() {
     setInterval(() => {
         let heart = document.createElement("div");
@@ -138,26 +105,41 @@ function createHearts() {
         heart.innerHTML = "❤️";
         heart.style.left = Math.random() * 100 + "vw";
         heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+
         document.body.appendChild(heart);
 
-        setTimeout(() => heart.remove(), 6000);
-    }, 250);
+        setTimeout(() => heart.remove(), 5000);
+    }, 300);
+}
+
+// 😂 No button moves
+function moveNo() {
+    let btn = document.getElementById("noBtn");
+    btn.style.position = "absolute";
+    btn.style.left = Math.random() * window.innerWidth + "px";
+    btn.style.top = Math.random() * window.innerHeight + "px";
 }
 
 // 🎆 Fireworks
 const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
+
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let particles = [];
 
+function yes() {
+    alert("You made me the happiest ❤️ – Kanhaiya");
+    startFireworks();
+}
+
 function startFireworks() {
     setInterval(() => {
-        for (let i = 0; i < 120; i++) {
+        for (let i = 0; i < 100; i++) {
             particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height / 2,
+                x: canvas.width / 2,
+                y: canvas.height / 2,
                 dx: (Math.random() - 0.5) * 6,
                 dy: (Math.random() - 0.5) * 6,
                 life: 100
